@@ -135,5 +135,5 @@ insert into Types values (7, N'כובע')
 insert into Types values (8, N'תכשיטים')
 insert into Types values (9, N'בגד ים')
 
-insert into Users values (1,  'Shira', 'Shira123', '0505555500', 'shira@gmail.com')
+insert into Users values ('Shira', 'Shira123', '0505555500', 'shira@gmail.com')
 
