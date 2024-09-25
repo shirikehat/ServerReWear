@@ -10,6 +10,8 @@ Go
 Use ReWear_DB
 Go
 
+
+--טבלת משתמשים
 CREATE TABLE Users (
     UserId INT PRIMARY KEY Identity,    -- מפתח ראשי
     UserName NVARCHAR(100),    -- שם משתמש
@@ -18,9 +20,21 @@ CREATE TABLE Users (
     Email NVARCHAR(100)        --אימייל
 );
 
-SELECT * FROM Products
+
+--טבלת סטטוס
+CREATE TABLE Status(
+    StatusCode INT PRIMARY KEY,  --קוד סטטוס
+    Name NVARCHAR(15)            --שם
+);
 
 
+--טבלת סוג מוצר
+CREATE TABLE Types(
+    TypeCode INT PRIMARY KEY,   --קוד סוג מוצר
+    Name NVARCHAR(15)           --שם
+);
+
+--טבלת מוצרים
 CREATE TABLE Products (
     ProductCode INT PRIMARY KEY Identity,      -- מפתח ראשי
     Price INT,                                 -- מחיר המוצר
@@ -38,44 +52,60 @@ CREATE TABLE Products (
 );
 
 
-CREATE TABLE Status(
-    StatusCode INT PRIMARY KEY,
-    Name NVARCHAR(15)
-);
 
 
-CREATE TABLE Types(
-    TypeCode INT PRIMARY KEY,
-    Name NVARCHAR(15)
-);
-
-
+--עגלת קניות
 CREATE TABLE Cart(
-UserId INT,
-FOREIGN KEY (UserId) REFERENCES Users(Userid),
+CartId INT PRIMARY KEY Identity, --מפתח ראשי
 
-ProductCode INT,
-FOREIGN KEY (ProductCode) REFERENCES Products(ProductCode)
+UserId INT,                                    --מפתח זר לטבלת משתמשים
+FOREIGN KEY (UserId) REFERENCES Users(Userid), --קישור לטבלת משתמשים
+
+ProductCode INT,                                             --מפתח זר לטבלת מוצרים
+FOREIGN KEY (ProductCode) REFERENCES Products(ProductCode)   --קישור לטבלת מוצרים
 );
 
-
+--טבלת לייקים
 CREATE TABLE WishList(
-UserId INT,
-FOREIGN KEY (UserId) REFERENCES Users(Userid),
+WishlistId INT PRIMARY KEY Identity,  --מפתח ראשי
 
-ProductCode INT,
-FOREIGN KEY (ProductCode) REFERENCES Products(ProductCode)
+UserId INT,                                    --מפתח זר לטבלת משתמשים
+FOREIGN KEY (UserId) REFERENCES Users(Userid), --קישור לטבלת משתמשים
+
+ProductCode INT,                                           --מפתח זר לטבלת מוצרים
+FOREIGN KEY (ProductCode) REFERENCES Products(ProductCode) --קישור לטבלת מוצרים
 );
 
 
+--טבלת מוצרים שהזמינו ממני
 CREATE TABLE OrdersFrom(
-UserId INT,
-FOREIGN KEY (UserId) REFERENCES Users(Userid),
+UserId INT,                                    --מפתח זר לטבלת משתמשים
+FOREIGN KEY (UserId) REFERENCES Users(Userid), --קישור לטבלת משתמשים
 
-ProductCode INT,
-FOREIGN KEY (ProductCode) REFERENCES Products(ProductCode),
+ProductCode INT,                                            --מפתח זר לטבלת מוצרים
+FOREIGN KEY (ProductCode) REFERENCES Products(ProductCode), --קישור לטבלת מוצרים
 
-Adress NVARCHAR(100)
+Adress NVARCHAR(100)  --כתובת למשלוח
+);
+
+
+--טבלה מקשרת בין מוצרים לעגלה
+CREATE TABLE ProintCart(
+ProductCode INT,                                            --מפתח זר לטבלת מוצרים
+FOREIGN KEY (ProductCode) REFERENCES Products(ProductCode), --קישור לטבלת מוצרים
+
+CartId INT,                                    --מפתח זר לטבלת עגלה
+FOREIGN KEY (CartId) REFERENCES Cart(cartId),  --קישור לטבלת עגלה
+);
+
+
+--טבלה מקשרת בין מוצרים לעגלה
+CREATE TABLE ProinWish(
+ProductCode INT,                                            --מפתח זר לטבלת מוצרים
+FOREIGN KEY (ProductCode) REFERENCES Products(ProductCode), --קישור לטבלת מוצרים
+
+WishlistId INT,                                    --מפתח זר לטבלת עגלה
+FOREIGN KEY (WishlistId) REFERENCES WishList(WishlistId),  --קישור לטבלת עגלה
 );
 
 -- Create a login for the admin user
@@ -105,5 +135,5 @@ insert into Types values (7, N'כובע')
 insert into Types values (8, N'תכשיטים')
 insert into Types values (9, N'בגד ים')
 
-
+insert into Users values (1,  'Shira', 'Shira123', '0505555500', 'shira@gmail.com')
 
