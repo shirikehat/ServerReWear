@@ -136,4 +136,7 @@ insert into Types values (8, N'תכשיטים')
 insert into Types values (9, N'בגד ים')
 
 insert into Users values ('Shira', 'Shira123', '0505555500', 'shira@gmail.com')
-
+GO
+Select * From Users
+Select * From Status
+Select * From Types
