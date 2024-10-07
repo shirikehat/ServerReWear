@@ -109,11 +109,11 @@ FOREIGN KEY (WishlistId) REFERENCES WishList(WishlistId),  --קישור לטבל
 );
 
 -- Create a login for the admin user
-CREATE LOGIN [AdminLogin] WITH PASSWORD = 'admin123';
+CREATE LOGIN [AdminUser] WITH PASSWORD = 'admin123';
 Go
 
 -- Create a user in the TamiDB database for the login
-CREATE USER [AdminUser] FOR LOGIN [AdminLogin];
+CREATE USER [AdminUser] FOR LOGIN [AdminUser];
 Go
 
 -- Add the user to the db_owner role to grant admin privileges
@@ -140,3 +140,8 @@ GO
 Select * From Users
 Select * From Status
 Select * From Types
+
+--EF Code
+/*
+scaffold-DbContext "Server = (localdb)\MSSQLLocalDB;Initial Catalog=ReWear_DB;User ID=AdminUser;Password=admin123;" Microsoft.EntityFrameworkCore.SqlServer -OutPutDir Models -Context ShiriDBContext -DataAnnotations -force
+*/

@@ -1,4 +1,7 @@
 
+using Microsoft.EntityFrameworkCore;
+using ServerReWear.Models;
+
 namespace ServerReWear
 {
     public class Program
@@ -16,12 +19,30 @@ namespace ServerReWear
 
             var app = builder.Build();
 
+            //Add Database to dependency injection
+            builder.Services.AddDbContext<ShiriDBContext>(
+                    options => options.UseSqlServer(""));
+
+            #region Add Session
+            builder.Services.AddDistributedMemoryCache();
+            builder.Services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(20);
+                options.Cookie.HttpOnly = false;
+                options.Cookie.IsEssential = true;
+            });
+            #endregion
+
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
+            #region Add Session
+            app.UseSession(); //In order to enable session management
+            #endregion 
 
             app.UseHttpsRedirection();
 
