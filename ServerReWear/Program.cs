@@ -17,11 +17,13 @@ namespace ServerReWear
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
-            var app = builder.Build();
+            
 
             //Add Database to dependency injection
-            builder.Services.AddDbContext<ShiriDBContext>(
-                    options => options.UseSqlServer("Server = (localdb)\\MSSQLLocalDB; Initial Catalog = ReWear_DB; User ID = AdminUser; Password = admin123; Trusted_Connection = True; MultipleActiveResultSets = true"));
+            builder.Services.AddDbContext<ShiriDBContext>(options => 
+            options.UseSqlServer("Server = (localdb)\\MSSQLLocalDB;Initial Catalog=ReWear_DB;User ID=AdminUser;Password=admin123; Trusted_Connection=True; MultipleActiveResultSets=true;"));
+
+            
 
             #region Add Session
             builder.Services.AddDistributedMemoryCache();
@@ -32,6 +34,8 @@ namespace ServerReWear
                 options.Cookie.IsEssential = true;
             });
             #endregion
+
+            var app = builder.Build();
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
