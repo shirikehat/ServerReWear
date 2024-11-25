@@ -6,7 +6,7 @@ using ServerReWear.Models;
 
 namespace ServerReWear.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api")]
     [ApiController]
     public class ReWearAPIControler : ControllerBase
     {
