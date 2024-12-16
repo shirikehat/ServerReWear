@@ -33,7 +33,7 @@ namespace ServerReWear.Controllers
                 HttpContext.Session.Clear();
 
                 // קבלת פרטי המשתמש ממסד הנתונים
-                Models.User user = context.Users.FirstOrDefault(u => u.UserName == loginInfo.Username);
+                Models.User? user = context.GetUser(loginInfo.Username);
 
                 // בדיקה האם המשתמש קיים
                 if (user == null)
