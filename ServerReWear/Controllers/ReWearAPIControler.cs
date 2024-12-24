@@ -94,7 +94,7 @@ namespace ServerReWear.Controllers
         public async Task<IActionResult> UploadProfileImageAsync(IFormFile file)
         {
             //Check if who is logged in
-            string? userName = HttpContext.Session.GetString("loggedInUser");
+            string? userName = HttpContext.Session.GetString("LoggedInUser");
             if (string.IsNullOrEmpty(userName))
             {
                 return Unauthorized("User is not logged in");
