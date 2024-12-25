@@ -22,8 +22,6 @@ public partial class Product
 
     public int? TypeId { get; set; }
 
-    public byte[]? Picture { get; set; }
-
     [InverseProperty("ProductCodeNavigation")]
     public virtual ICollection<Cart> Carts { get; set; } = new List<Cart>();
 

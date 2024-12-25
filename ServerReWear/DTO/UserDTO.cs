@@ -18,5 +18,18 @@
             this.Phone = modeluser.Phone;
             this.Email = modeluser.Email;
         }
+
+        public Models.User GetModel()
+        {
+            return new Models.User()
+            {
+                UserId = this.Id,
+                UserName = this.UserName,
+                Password = this.Password,
+                Phone = this.Phone,
+                Email = this.Email
+            };
+        }
+
     }
 }

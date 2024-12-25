@@ -1,4 +1,4 @@
-﻿﻿Use master
+﻿use master
 Go
 IF EXISTS (SELECT * FROM sys.databases WHERE name = N'ReWear_DB')
 BEGIN
@@ -7,7 +7,7 @@ END
 Go
 Create Database ReWear_DB
 Go
-Use ReWear_DB
+use ReWear_DB
 Go
 
 
@@ -46,9 +46,9 @@ CREATE TABLE Products (
     FOREIGN KEY (StatusId) REFERENCES Status(StatusCode), -- קישור לטבלת הסטטוס
 
     TypeId INT,                                      -- מפתח זר לטבלת סוגים
-    FOREIGN KEY (TypeId) REFERENCES Types(TypeCode), -- קישור לטבלת הסוגים
+    FOREIGN KEY (TypeId) REFERENCES Types(TypeCode) -- קישור לטבלת הסוגים
 
-    Picture VARBINARY(MAX)
+    
 );
 
 
@@ -136,10 +136,12 @@ insert into Types values (8, N'תכשיטים')
 insert into Types values (9, N'בגד ים')
 
 insert into Users values ('Shira', 'Shira123', '0505555500', 'shira@gmail.com')
+insert into Products  values(30, 1, 'xs', 1, 1)
 GO
 Select * From Users
 Select * From Status
 Select * From Types
+Select * From Products
 
 --EF Code
 /*

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using ServerReWear.DTO;
 using ServerReWear.Models;
+using System.Text.RegularExpressions;
 
 
 namespace ServerReWear.Controllers
@@ -67,13 +68,7 @@ namespace ServerReWear.Controllers
                 HttpContext.Session.Clear(); //Logout any previous login attempt
 
                 //Get model user class from DB with matching email. 
-                Models.User modelsUser = new User()
-                {
-                    UserName = userDto.UserName,
-                    Email = userDto.Email,
-                    Password = userDto.Password,
-                    Phone = userDto.Phone
-                };
+                Models.User modelsUser = userDto.GetModel();
 
                 context.Users.Add(modelsUser);
                 context.SaveChanges();
@@ -184,6 +179,31 @@ namespace ServerReWear.Controllers
 
             return false;
         }
+        //this function check which product image exist and return the virtual path of it.
+        //if it does not exist it returns the default product image virtual path
+        private string GetProductImageVirtualPath(int productId)
+        {
+            string virtualPath = $"/productImages/{productId}";
+            string path = $"{this.webHostEnvironment.WebRootPath}\\productImages\\{productId}.png";
+            if (System.IO.File.Exists(path))
+            {
+                virtualPath += ".png";
+            }
+            else
+            {
+                path = $"{this.webHostEnvironment.WebRootPath}\\productImages\\{productId}.jpg";
+                if (System.IO.File.Exists(path))
+                {
+                    virtualPath += ".jpg";
+                }
+                else
+                {
+                    virtualPath = $"/productImages/product.png";
+                }
+            }
+
+            return virtualPath;
+        }
 
         //this function check which profile image exist and return the virtual path of it.
         //if it does not exist it returns the default profile image virtual path
@@ -210,6 +230,47 @@ namespace ServerReWear.Controllers
 
             return virtualPath;
         }
+
+
+
+        [HttpPost("GetProducts")]
+        public IActionResult GetProducts()
+        {
+            try
+            {
+                //Check if who is logged in
+                string? userName = HttpContext.Session.GetString("LoggedInUser");
+                if (string.IsNullOrEmpty(userName))
+                {
+                    return Unauthorized("User is not logged in");
+                }
+
+                User? u = context.Users.Where(u => u.UserName == userName).FirstOrDefault();
+
+                if (u == null)
+                {
+                    return Unauthorized("User is not logged in");
+                }
+
+                List<Product> products = context.Products.Where(p=>p.UserId==u.UserId).ToList();
+                
+                List<ProductDTO> dtoProducts = new List<ProductDTO>();
+                foreach (var product in products)
+                {
+                    ProductDTO p = new ProductDTO(product);
+                    p.ImagePath = GetProductImageVirtualPath(p.ProductCode);
+                    dtoProducts.Add(p);
+                }
+
+                return Ok(dtoProducts);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+
     }
 
 }
