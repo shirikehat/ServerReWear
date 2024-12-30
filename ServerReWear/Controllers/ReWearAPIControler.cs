@@ -50,6 +50,7 @@ namespace ServerReWear.Controllers
 
                 // create a new DTO.User object based on the existing user object.
                 DTO.UserDTO DTO_User = new DTO.UserDTO(user);
+                DTO_User.ProfileImagePath = GetProfileImageVirtualPath(DTO_User.Id);
                 // החזרת פרטי המשתמש
                 return Ok(DTO_User);
             }
@@ -233,7 +234,7 @@ namespace ServerReWear.Controllers
 
 
 
-        [HttpPost("GetProducts")]
+        [HttpGet("GetProducts")]
         public IActionResult GetProducts()
         {
             try
