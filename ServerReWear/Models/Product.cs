@@ -11,7 +11,7 @@ public partial class Product
     [Key]
     public int ProductCode { get; set; }
 
-    public int? Price { get; set; }
+    public int Price { get; set; }
 
     public int? UserId { get; set; }
 

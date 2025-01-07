@@ -6,22 +6,23 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ServerReWear.Models;
 
+[Index("UserName", Name = "UQ__Users__C9F2845691A1CCFE", IsUnique = true)]
 public partial class User
 {
     [Key]
     public int UserId { get; set; }
 
     [StringLength(100)]
-    public string? UserName { get; set; }
+    public string UserName { get; set; } = null!;
 
     [StringLength(100)]
-    public string? Password { get; set; }
+    public string Password { get; set; } = null!;
 
     [StringLength(10)]
-    public string? Phone { get; set; }
+    public string Phone { get; set; } = null!;
 
     [StringLength(100)]
-    public string? Email { get; set; }
+    public string Email { get; set; } = null!;
 
     [InverseProperty("User")]
     public virtual ICollection<Cart> Carts { get; set; } = new List<Cart>();

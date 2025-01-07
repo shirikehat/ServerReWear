@@ -14,10 +14,10 @@ Go
 --טבלת משתמשים
 CREATE TABLE Users (
     UserId INT PRIMARY KEY Identity,    -- מפתח ראשי
-    UserName NVARCHAR(100),    -- שם משתמש
-    Password NVARCHAR(100),    -- סיסמה
-    Phone NVARCHAR(10),        --טלפון
-    Email NVARCHAR(100)        --אימייל
+    UserName NVARCHAR(100) unique not null,    -- שם משתמש
+    Password NVARCHAR(100) not null,    -- סיסמה
+    Phone NVARCHAR(10) not null,        --טלפון
+    Email NVARCHAR(100) not null       --אימייל
 );
 
 
@@ -37,7 +37,7 @@ CREATE TABLE Types(
 --טבלת מוצרים
 CREATE TABLE Products (
     ProductCode INT PRIMARY KEY Identity,      -- מפתח ראשי
-    Price INT,                                 -- מחיר המוצר
+    Price INT not null,                                 -- מחיר המוצר
     UserId INT,                                    -- מפתח זר לטבלת משתמשים
     FOREIGN KEY (UserId) REFERENCES Users(UserId), -- קישור לטבלת המשתמשים
 
