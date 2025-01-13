@@ -86,6 +86,30 @@ namespace ServerReWear.Controllers
         }
 
 
+        [HttpPost("update")]
+        public IActionResult UpdateUser([FromBody] DTO.UserDTO userDto)
+        {
+            try
+            {
+                HttpContext.Session.Clear(); //Logout any previous login attempt
+
+                //Get model user class from DB with matching email. 
+                Models.User modelsUser = userDto.GetModel();
+
+                context.Users.Update(modelsUser);
+                context.SaveChanges();
+
+                //User was added!
+                DTO.UserDTO dtoUser = new DTO.UserDTO(modelsUser);
+                return Ok(dtoUser);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+        }
+
         [HttpPost("UploadProfileImage")]
         public async Task<IActionResult> UploadProfileImageAsync(IFormFile file)
         {
@@ -259,7 +283,7 @@ namespace ServerReWear.Controllers
                 foreach (var product in products)
                 {
                     ProductDTO p = new ProductDTO(product);
-                    p.ImagePath = GetProductImageVirtualPath(p.ProductCode);
+                    p.ProductImagePath = GetProductImageVirtualPath(p.ProductCode);
                     dtoProducts.Add(p);
                 }
 

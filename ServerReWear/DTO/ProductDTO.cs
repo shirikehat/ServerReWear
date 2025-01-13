@@ -8,7 +8,7 @@ namespace ServerReWear.DTO
     {
         public int ProductCode { get; set; }
 
-        public int? Price { get; set; }
+        public int Price { get; set; }
 
         public int? UserId { get; set; }
 
@@ -17,7 +17,8 @@ namespace ServerReWear.DTO
         public int? StatusId { get; set; }
 
         public int? TypeId { get; set; }
-        public string ImagePath { get; set; } = "";
+        public string ProductImagePath { get; set; } = "";
+       
         public ProductDTO() { }
 
         public ProductDTO(Models.Product product)
