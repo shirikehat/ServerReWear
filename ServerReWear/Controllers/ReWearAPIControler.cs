@@ -296,6 +296,46 @@ namespace ServerReWear.Controllers
         }
 
 
+
+
+        [HttpGet("GetAllProducts")]
+        public IActionResult GetAllProducts()
+        {
+            try
+            {
+                //Check if who is logged in
+                string? userName = HttpContext.Session.GetString("LoggedInUser");
+                if (string.IsNullOrEmpty(userName))
+                {
+                    return Unauthorized("User is not logged in");
+                }
+
+                User? u = context.Users.Where(u => u.UserName == userName).FirstOrDefault();
+
+                if (u == null)
+                {
+                    return Unauthorized("User is not logged in");
+                }
+
+                List<Product> products = context.Products.ToList();
+
+                List<ProductDTO> dtoProducts = new List<ProductDTO>();
+                foreach (var product in products)
+                {
+                    ProductDTO p = new ProductDTO(product);
+                    p.ProductImagePath = GetProductImageVirtualPath(p.ProductCode);
+                    dtoProducts.Add(p);
+                }
+
+                return Ok(dtoProducts);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+
     }
 
 }

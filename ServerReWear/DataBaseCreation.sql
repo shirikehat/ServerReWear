@@ -137,6 +137,7 @@ insert into Types values (9, N'בגד ים')
 
 insert into Users values ('Shira', 'Shira123', '0505555500', 'shira@gmail.com')
 insert into Products  values(30, 1, 'xs', 1, 1)
+insert into Products  values(35, 1, 's', 1, 2)
 GO
 Select * From Users
 Select * From Status
