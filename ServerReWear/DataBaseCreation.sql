@@ -17,7 +17,8 @@ CREATE TABLE Users (
     UserName NVARCHAR(100) unique not null,    -- שם משתמש
     Password NVARCHAR(100) not null,    -- סיסמה
     Phone NVARCHAR(10) not null,        --טלפון
-    Email NVARCHAR(100) not null       --אימייל
+    Email NVARCHAR(100) not null,       --אימייל
+    IsManager bit default(0) not null --האם המשתמש הוא מנהל המערכת
 );
 
 
@@ -135,7 +136,8 @@ insert into Types values (7, N'כובע')
 insert into Types values (8, N'תכשיטים')
 insert into Types values (9, N'בגד ים')
 
-insert into Users values ('Shira', 'Shira123', '0505555500', 'shira@gmail.com')
+insert into Users values ('Shira', 'Shira123', '0505555500', 'shira@gmail.com', 0)
+insert into Users(Username, Password, Phone, Email, IsManager) values ('shiri','admin123','0009998887','a@gmail.com', 1)
 insert into Products  values(30, 1, 'xs', 1, 1)
 insert into Products  values(35, 1, 's', 1, 2)
 GO
