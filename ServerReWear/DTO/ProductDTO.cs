@@ -17,6 +17,8 @@ namespace ServerReWear.DTO
         public int? StatusId { get; set; }
 
         public int? TypeId { get; set; }
+        public string? Store { get; set; }
+        public string? Description { get; set; }
         public string ProductImagePath { get; set; } = "";
        
         public ProductDTO() { }

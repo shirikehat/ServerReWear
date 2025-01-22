@@ -47,9 +47,10 @@ CREATE TABLE Products (
     FOREIGN KEY (StatusId) REFERENCES Status(StatusCode), -- קישור לטבלת הסטטוס
 
     TypeId INT,                                      -- מפתח זר לטבלת סוגים
-    FOREIGN KEY (TypeId) REFERENCES Types(TypeCode) -- קישור לטבלת הסוגים
+    FOREIGN KEY (TypeId) REFERENCES Types(TypeCode), -- קישור לטבלת הסוגים
 
-    
+    Store NVARCHAR(25),
+    Description NVARCHAR(100)
 );
 
 
@@ -138,8 +139,8 @@ insert into Types values (9, N'בגד ים')
 
 insert into Users values ('Shira', 'Shira123', '0505555500', 'shira@gmail.com', 0)
 insert into Users(Username, Password, Phone, Email, IsManager) values ('shiri','admin123','0009998887','a@gmail.com', 1)
-insert into Products  values(30, 1, 'xs', 1, 1)
-insert into Products  values(35, 1, 's', 1, 2)
+insert into Products  values(30, 1, 'xs', 1, 1, 'h&m', 'good')
+insert into Products  values(35, 1, 's', 1, 2, 'bershka', 'great')
 GO
 Select * From Users
 Select * From Status

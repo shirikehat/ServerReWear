@@ -22,6 +22,12 @@ public partial class Product
 
     public int? TypeId { get; set; }
 
+    [StringLength(25)]
+    public string? Store { get; set; }
+
+    [StringLength(100)]
+    public string? Description { get; set; }
+
     [InverseProperty("ProductCodeNavigation")]
     public virtual ICollection<Cart> Carts { get; set; } = new List<Cart>();
 
