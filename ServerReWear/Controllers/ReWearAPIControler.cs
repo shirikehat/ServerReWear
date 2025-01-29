@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using ServerReWear.DTO;
 using ServerReWear.Models;
 using System.Text.RegularExpressions;
@@ -277,7 +278,7 @@ namespace ServerReWear.Controllers
                     return Unauthorized("User is not logged in");
                 }
 
-                List<Product> products = context.Products.Where(p=>p.UserId==u.UserId).ToList();
+                List<Product> products = context.Products.Include(p => p.User).Where(p=>p.UserId==u.UserId).ToList();
                 
                 List<ProductDTO> dtoProducts = new List<ProductDTO>();
                 foreach (var product in products)
@@ -317,7 +318,7 @@ namespace ServerReWear.Controllers
                     return Unauthorized("User is not logged in");
                 }
 
-                List<Product> products = context.Products.ToList();
+                List<Product> products = context.Products.Include(p=>p.User).ToList();
 
                 List<ProductDTO> dtoProducts = new List<ProductDTO>();
                 foreach (var product in products)
@@ -333,10 +334,30 @@ namespace ServerReWear.Controllers
             {
                 return BadRequest(ex.Message);
             }
+
+        }
+
+        [HttpGet("GetBasicData")]
+        public IActionResult GetBasicData()
+        {
+            try
+            {
+
+
+                List<Models.Status> statuses = context.Statuses.ToList();
+                List<Models.Type> types = context.Types.ToList();
+                BasicData basicData = new BasicData(statuses, types);
+                
+                return Ok(basicData);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
 
-    }
+        }
 
 }
 

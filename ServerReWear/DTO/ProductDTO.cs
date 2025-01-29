@@ -11,7 +11,7 @@ namespace ServerReWear.DTO
         public int Price { get; set; }
 
         public int? UserId { get; set; }
-
+        public string? UserName { get; set; }
         public string? Size { get; set; }
 
         public int? StatusId { get; set; }
@@ -31,6 +31,8 @@ namespace ServerReWear.DTO
             Size = product.Size;
             StatusId = product.StatusId;
             TypeId = product.TypeId;
+            if (product.User != null)
+                UserName = product.User.UserName;
         }
 
         public Models.Product GetModel()

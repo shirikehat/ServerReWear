@@ -141,6 +141,8 @@ insert into Users(Username, Password, Phone, Email) values ('Shira', 'Shira123',
 insert into Users(Username, Password, Phone, Email, IsManager) values ('shiri','admin123','0009998887','a@gmail.com', 1)
 insert into Products  values(30, 1, 'xs', 1, 1, 'h&m', 'good')
 insert into Products  values(35, 1, 's', 1, 2, 'bershka', 'great')
+insert into Products  values(100, 1, '39', 1, 5, 'h&m', 'perf')
+insert into Products  values(40, 1, 's', 1, 4, 'bershka', 'great')
 GO
 Select * From Users
 Select * From Status
