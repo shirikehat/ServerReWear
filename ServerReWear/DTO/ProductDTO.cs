@@ -12,6 +12,7 @@ namespace ServerReWear.DTO
 
         public int? UserId { get; set; }
         public string? UserName { get; set; }
+        public string? UserProfile { get; set; } = "";
         public string? Size { get; set; }
 
         public int? StatusId { get; set; }
@@ -32,7 +33,10 @@ namespace ServerReWear.DTO
             StatusId = product.StatusId;
             TypeId = product.TypeId;
             if (product.User != null)
+            {
                 UserName = product.User.UserName;
+                //UserProfile = product.User.ProfileImagePath;
+            }
         }
 
         public Models.Product GetModel()
