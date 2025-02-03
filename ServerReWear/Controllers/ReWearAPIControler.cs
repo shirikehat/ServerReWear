@@ -278,8 +278,8 @@ namespace ServerReWear.Controllers
                     return Unauthorized("User is not logged in");
                 }
 
-                List<Product> products = context.Products.Include(p => p.User).Where(p=>p.UserId==u.UserId).ToList();
-                
+                List<Product> products = context.Products.Include(p => p.User).Where(p => p.UserId == u.UserId).ToList();
+
                 List<ProductDTO> dtoProducts = new List<ProductDTO>();
                 foreach (var product in products)
                 {
@@ -318,7 +318,7 @@ namespace ServerReWear.Controllers
                     return Unauthorized("User is not logged in");
                 }
 
-                List<Product> products = context.Products.Include(p=>p.User).ToList();
+                List<Product> products = context.Products.Include(p => p.User).ToList();
 
                 List<ProductDTO> dtoProducts = new List<ProductDTO>();
                 foreach (var product in products)
@@ -347,7 +347,7 @@ namespace ServerReWear.Controllers
                 List<Models.Status> statuses = context.Statuses.ToList();
                 List<Models.Type> types = context.Types.ToList();
                 BasicData basicData = new BasicData(statuses, types);
-                
+
                 return Ok(basicData);
             }
             catch (Exception ex)
@@ -357,7 +357,20 @@ namespace ServerReWear.Controllers
         }
 
 
+        [HttpPost("AddToCart")]
+        public IActionResult AddToCart()
+        {
+
+
         }
 
+        [HttpPost("AddToWishlist")]
+        public IActionResult AddToWishlist()
+        {
+
+
+        }
+
+    }
 }
 
