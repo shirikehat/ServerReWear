@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ServerReWear.Models;
 
-[Index("UserName", Name = "UQ__Users__C9F28456BE867FB6", IsUnique = true)]
+[Index("UserName", Name = "UQ__Users__C9F284563AF04DD6", IsUnique = true)]
 public partial class User
 {
     [Key]

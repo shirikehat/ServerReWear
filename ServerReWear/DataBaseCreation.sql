@@ -91,24 +91,6 @@ Adress NVARCHAR(100)  --כתובת למשלוח
 );
 
 
---טבלה מקשרת בין מוצרים לעגלה
-CREATE TABLE ProintCart(
-ProductCode INT,                                            --מפתח זר לטבלת מוצרים
-FOREIGN KEY (ProductCode) REFERENCES Products(ProductCode), --קישור לטבלת מוצרים
-
-CartId INT,                                    --מפתח זר לטבלת עגלה
-FOREIGN KEY (CartId) REFERENCES Cart(cartId),  --קישור לטבלת עגלה
-);
-
-
---טבלה מקשרת בין מוצרים לעגלה
-CREATE TABLE ProinWish(
-ProductCode INT,                                            --מפתח זר לטבלת מוצרים
-FOREIGN KEY (ProductCode) REFERENCES Products(ProductCode), --קישור לטבלת מוצרים
-
-WishlistId INT,                                    --מפתח זר לטבלת עגלה
-FOREIGN KEY (WishlistId) REFERENCES WishList(WishlistId),  --קישור לטבלת עגלה
-);
 
 -- Create a login for the admin user
 CREATE LOGIN [AdminUser] WITH PASSWORD = 'admin123';
