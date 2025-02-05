@@ -358,18 +358,115 @@ namespace ServerReWear.Controllers
 
 
         [HttpPost("AddToCart")]
-        public IActionResult AddToCart()
+        public IActionResult AddToCart([FromBody]int productCode)
         {
+            try
+            {
+                //Check if who is logged in
+                string? userName = HttpContext.Session.GetString("LoggedInUser");
+                if (string.IsNullOrEmpty(userName))
+                {
+                    return Unauthorized("User is not logged in");
+                }
 
+                User? u = context.Users.Where(u => u.UserName == userName).FirstOrDefault();
 
+                if (u == null)
+                {
+                    return Unauthorized("User is not logged in");
+                }
+
+                Cart c = new Cart()
+                {
+                    UserId = u.UserId,
+                    ProductCode = productCode
+                };
+
+                context.Carts.Add(c);
+                context.SaveChanges();
+                return Ok(c);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpPost("AddToWishlist")]
-        public IActionResult AddToWishlist()
+        public IActionResult AddToWishlist([FromBody] int productCode)
         {
+            try
+            {
+                //Check if who is logged in
+                string? userName = HttpContext.Session.GetString("LoggedInUser");
+                if (string.IsNullOrEmpty(userName))
+                {
+                    return Unauthorized("User is not logged in");
+                }
 
+                User? u = context.Users.Where(u => u.UserName == userName).FirstOrDefault();
+
+                if (u == null)
+                {
+                    return Unauthorized("User is not logged in");
+                }
+
+                WishList w = new WishList()
+                {
+                    UserId = u.UserId,
+                    ProductCode = productCode
+                };
+
+                context.WishLists.Add(w);
+                context.SaveChanges();
+                return Ok(w);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
 
         }
+
+        [HttpGet("GetAllUsers")]
+        public IActionResult GetAllUsers()
+        {
+            try
+            {
+                //Check if who is logged in
+                string? userName = HttpContext.Session.GetString("LoggedInUser");
+                if (string.IsNullOrEmpty(userName))
+                {
+                    return Unauthorized("User is not logged in");
+                }
+
+                User? u = context.Users.Where(u => u.UserName == userName).FirstOrDefault();
+
+                if (u == null)
+                {
+                    return Unauthorized("User is not logged in");
+                }
+
+                List<User> users = context.Users.ToList();
+
+                List<UserDTO> dtoUsers = new List<UserDTO>();
+                foreach (var user in users)
+                {
+                    UserDTO us = new UserDTO(user);
+                    us.ProfileImagePath = GetProfileImageVirtualPath(us.Id);
+                    dtoUsers.Add(us);
+                }
+
+                return Ok(dtoUsers);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+        }
+
+
 
     }
 }

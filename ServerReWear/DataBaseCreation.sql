@@ -148,6 +148,7 @@ Select * From Users
 Select * From Status
 Select * From Types
 Select * From Products
+select * from cart
 
 --EF Code
 /*
