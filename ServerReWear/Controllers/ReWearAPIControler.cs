@@ -259,8 +259,8 @@ namespace ServerReWear.Controllers
 
 
 
-        [HttpGet("GetProducts")]
-        public IActionResult GetProducts()
+        [HttpPost("GetProducts")]
+        public IActionResult GetProducts([FromBody] User theUser)
         {
             try
             {
@@ -278,7 +278,7 @@ namespace ServerReWear.Controllers
                     return Unauthorized("User is not logged in");
                 }
 
-                List<Product> products = context.Products.Include(p => p.User).Where(p => p.UserId == u.UserId).ToList();
+                List<Product> products = context.Products.Include(p => p.User).Where(p => p.UserId == theUser.UserId).ToList();
 
                 List<ProductDTO> dtoProducts = new List<ProductDTO>();
                 foreach (var product in products)

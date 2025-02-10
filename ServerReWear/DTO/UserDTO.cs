@@ -18,6 +18,7 @@
             this.Password = modeluser.Password;
             this.Phone = modeluser.Phone;
             this.Email = modeluser.Email;
+            this.IsManager = modeluser.IsManager;
         }
 
         public Models.User GetModel()
