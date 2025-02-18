@@ -285,6 +285,8 @@ namespace ServerReWear.Controllers
                 {
                     ProductDTO p = new ProductDTO(product);
                     p.ProductImagePath = GetProductImageVirtualPath(p.ProductCode);
+                    if (p.UserId != null)
+                        p.UserProfile = GetProfileImageVirtualPath(p.UserId.Value);
                     dtoProducts.Add(p);
                 }
 
@@ -325,6 +327,8 @@ namespace ServerReWear.Controllers
                 {
                     ProductDTO p = new ProductDTO(product);
                     p.ProductImagePath = GetProductImageVirtualPath(p.ProductCode);
+                    if (p.UserId != null)
+                        p.UserProfile = GetProfileImageVirtualPath(p.UserId.Value);
                     dtoProducts.Add(p);
                 }
 
@@ -465,6 +469,82 @@ namespace ServerReWear.Controllers
             }
 
         }
+
+        [HttpPost("GetCart")]
+        public IActionResult GetCart([FromBody] UserDTO theUser)
+        {
+            try
+            {
+                //Check if who is logged in
+                string? userName = HttpContext.Session.GetString("LoggedInUser");
+                if (string.IsNullOrEmpty(userName))
+                {
+                    return Unauthorized("User is not logged in");
+                }
+
+                User? u = context.Users.Where(u => u.UserName == userName).FirstOrDefault();
+
+                if (u == null)
+                {
+                    return Unauthorized("User is not logged in");
+                }
+
+                List<Cart> carts = context.Carts.Include(p => p.ProductCode).Where(p => p.UserId == theUser.Id).ToList();
+
+                List<CartDTO> dtoCarts = new List<CartDTO>();
+                foreach (var cart in carts)
+                {
+                    CartDTO c = new CartDTO(cart);
+                    dtoCarts.Add(c);
+                }
+
+                return Ok(dtoCarts);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+
+
+
+        [HttpPost("GetWishlist")]
+        public IActionResult GetWishlist([FromBody] UserDTO theUser)
+        {
+            try
+            {
+                //Check if who is logged in
+                string? userName = HttpContext.Session.GetString("LoggedInUser");
+                if (string.IsNullOrEmpty(userName))
+                {
+                    return Unauthorized("User is not logged in");
+                }
+
+                User? u = context.Users.Where(u => u.UserName == userName).FirstOrDefault();
+
+                if (u == null)
+                {
+                    return Unauthorized("User is not logged in");
+                }
+
+                List<WishList> wishlists = context.WishLists.Include(p => p.ProductCode).Where(p => p.UserId == theUser.Id).ToList();
+
+                List<WishlistDTO> dtoWishlists = new List<WishlistDTO>();
+                foreach (var wishlist in wishlists)
+                {
+                    WishlistDTO w = new WishlistDTO(wishlist);
+                    dtoWishlists.Add(w);
+                }
+
+                return Ok(dtoWishlists);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
 
 
 

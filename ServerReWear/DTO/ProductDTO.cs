@@ -35,7 +35,7 @@ namespace ServerReWear.DTO
             if (product.User != null)
             {
                 UserName = product.User.UserName;
-                //UserProfile = product.User.ProfileImagePath;
+               
             }
         }
 
