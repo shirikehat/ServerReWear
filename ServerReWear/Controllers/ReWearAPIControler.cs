@@ -388,7 +388,9 @@ namespace ServerReWear.Controllers
 
                 context.Carts.Add(c);
                 context.SaveChanges();
-                return Ok(c);
+
+                CartDTO dto = new CartDTO(c);
+                return Ok(dto);
             }
             catch (Exception ex)
             {
@@ -423,7 +425,8 @@ namespace ServerReWear.Controllers
 
                 context.WishLists.Add(w);
                 context.SaveChanges();
-                return Ok(w);
+                WishlistDTO dto = new WishlistDTO(w);
+                return Ok(dto);
             }
             catch (Exception ex)
             {
@@ -470,8 +473,8 @@ namespace ServerReWear.Controllers
 
         }
 
-        [HttpPost("GetCart")]
-        public IActionResult GetCart([FromBody] UserDTO theUser)
+        [HttpGet("GetCart")]
+        public IActionResult GetCart()
         {
             try
             {
@@ -489,7 +492,7 @@ namespace ServerReWear.Controllers
                     return Unauthorized("User is not logged in");
                 }
 
-                List<Cart> carts = context.Carts.Include(p => p.ProductCode).Where(p => p.UserId == theUser.Id).ToList();
+                List<Cart> carts = context.Carts.Include(p => p.ProductCode).Where(p => p.UserId == u.UserId).ToList();
 
                 List<CartDTO> dtoCarts = new List<CartDTO>();
                 foreach (var cart in carts)
@@ -509,8 +512,8 @@ namespace ServerReWear.Controllers
 
 
 
-        [HttpPost("GetWishlist")]
-        public IActionResult GetWishlist([FromBody] UserDTO theUser)
+        [HttpGet("GetWishlist")]
+        public IActionResult GetWishlist()
         {
             try
             {
@@ -528,7 +531,7 @@ namespace ServerReWear.Controllers
                     return Unauthorized("User is not logged in");
                 }
 
-                List<WishList> wishlists = context.WishLists.Include(p => p.ProductCode).Where(p => p.UserId == theUser.Id).ToList();
+                List<WishList> wishlists = context.WishLists.Include(p => p.ProductCode).Where(p => p.UserId == u.UserId).ToList();
 
                 List<WishlistDTO> dtoWishlists = new List<WishlistDTO>();
                 foreach (var wishlist in wishlists)
