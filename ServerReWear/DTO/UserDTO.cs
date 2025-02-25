@@ -20,7 +20,7 @@
             this.Phone = modeluser.Phone;
             this.Email = modeluser.Email;
             this.IsManager = modeluser.IsManager;
-            //this.IsBlocked = modeluser.IsBlocked;
+            this.IsBlocked = modeluser.IsBlocked;
         }
 
         public Models.User GetModel()

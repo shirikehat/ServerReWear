@@ -11,5 +11,11 @@ public partial class ShiriDBContext : DbContext
     {
         return this.Users.FirstOrDefault(u => u.UserName == userName);
     }
+
+    public Models.User? GetUser1(int id)
+    {
+        return this.Users.Where(u => u.UserId == id)
+                            .FirstOrDefault();
+    }
 }
 

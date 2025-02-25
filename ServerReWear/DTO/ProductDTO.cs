@@ -24,7 +24,7 @@ namespace ServerReWear.DTO
        
         public ProductDTO() { }
 
-        public ProductDTO(Models.Product product)
+        public ProductDTO(Models.Product product, string wwwRoot = "")
         {
             ProductCode = product.ProductCode;
             Price = product.Price;
@@ -37,6 +37,7 @@ namespace ServerReWear.DTO
                 UserName = product.User.UserName;
                
             }
+            ProductImagePath = GetProductImageVirtualPath(ProductCode, wwwRoot);
         }
 
         public Models.Product GetModel()
@@ -51,6 +52,30 @@ namespace ServerReWear.DTO
                 TypeId = this.TypeId
             };
         }
-        
+
+        private string GetProductImageVirtualPath(int productId, string wwwRoot)
+        {
+            string virtualPath = $"/productImages/{productId}";
+            string path = $"{wwwRoot}\\productImages\\{productId}.png";
+            if (System.IO.File.Exists(path))
+            {
+                virtualPath += ".png";
+            }
+            else
+            {
+                path = $"{wwwRoot}\\productImages\\{productId}.jpg";
+                if (System.IO.File.Exists(path))
+                {
+                    virtualPath += ".jpg";
+                }
+                else
+                {
+                    virtualPath = $"/productImages/product.png";
+                }
+            }
+
+            return virtualPath;
+        }
+
     }
 }

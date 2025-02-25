@@ -283,8 +283,7 @@ namespace ServerReWear.Controllers
                 List<ProductDTO> dtoProducts = new List<ProductDTO>();
                 foreach (var product in products)
                 {
-                    ProductDTO p = new ProductDTO(product);
-                    p.ProductImagePath = GetProductImageVirtualPath(p.ProductCode);
+                    ProductDTO p = new ProductDTO(product, this.webHostEnvironment.WebRootPath);
                     if (p.UserId != null)
                         p.UserProfile = GetProfileImageVirtualPath(p.UserId.Value);
                     dtoProducts.Add(p);
@@ -325,8 +324,7 @@ namespace ServerReWear.Controllers
                 List<ProductDTO> dtoProducts = new List<ProductDTO>();
                 foreach (var product in products)
                 {
-                    ProductDTO p = new ProductDTO(product);
-                    p.ProductImagePath = GetProductImageVirtualPath(p.ProductCode);
+                    ProductDTO p = new ProductDTO(product, this.webHostEnvironment.WebRootPath);
                     if (p.UserId != null)
                         p.UserProfile = GetProfileImageVirtualPath(p.UserId.Value);
                     dtoProducts.Add(p);
@@ -362,7 +360,7 @@ namespace ServerReWear.Controllers
 
 
         [HttpPost("AddToCart")]
-        public IActionResult AddToCart([FromBody]int productCode)
+        public IActionResult AddToCart([FromBody] int productCode)
         {
             try
             {
@@ -389,7 +387,7 @@ namespace ServerReWear.Controllers
                 context.Carts.Add(c);
                 context.SaveChanges();
 
-                CartDTO dto = new CartDTO(c);
+                CartDTO dto = new CartDTO(c, this.webHostEnvironment.WebRootPath);
                 return Ok(dto);
             }
             catch (Exception ex)
@@ -425,7 +423,7 @@ namespace ServerReWear.Controllers
 
                 context.WishLists.Add(w);
                 context.SaveChanges();
-                WishlistDTO dto = new WishlistDTO(w);
+                WishlistDTO dto = new WishlistDTO(w, this.webHostEnvironment.WebRootPath);
                 return Ok(dto);
             }
             catch (Exception ex)
@@ -492,12 +490,12 @@ namespace ServerReWear.Controllers
                     return Unauthorized("User is not logged in");
                 }
 
-                List<Cart> carts = context.Carts.Include(p => p.ProductCode).Where(p => p.UserId == u.UserId).ToList();
+                List<Cart> carts = context.Carts.Include(p => p.ProductCodeNavigation).Where(p => p.UserId == u.UserId).ToList();
 
                 List<CartDTO> dtoCarts = new List<CartDTO>();
                 foreach (var cart in carts)
                 {
-                    CartDTO c = new CartDTO(cart);
+                    CartDTO c = new CartDTO(cart, this.webHostEnvironment.WebRootPath);
                     dtoCarts.Add(c);
                 }
 
@@ -531,12 +529,12 @@ namespace ServerReWear.Controllers
                     return Unauthorized("User is not logged in");
                 }
 
-                List<WishList> wishlists = context.WishLists.Include(p => p.ProductCode).Where(p => p.UserId == u.UserId).ToList();
+                List<WishList> wishlists = context.WishLists.Include(p => p.ProductCodeNavigation).Where(p => p.UserId == u.UserId).ToList();
 
                 List<WishlistDTO> dtoWishlists = new List<WishlistDTO>();
                 foreach (var wishlist in wishlists)
                 {
-                    WishlistDTO w = new WishlistDTO(wishlist);
+                    WishlistDTO w = new WishlistDTO(wishlist, this.webHostEnvironment.WebRootPath);
                     dtoWishlists.Add(w);
                 }
 
@@ -549,14 +547,13 @@ namespace ServerReWear.Controllers
         }
 
 
-
         [HttpPost("Block")]
-        public IActionResult Block([FromBody] DTO.User u)
+        public IActionResult Block([FromBody] DTO.UserDTO u)
         {
             try
             {
                 //Create model user class
-                Models.User user = context.GetUser1(u.UserId);
+                Models.User user = context.GetUser1(u.Id);
                 user.IsBlocked = u.IsBlocked;
                 context.Entry(user).State = EntityState.Modified;
 
@@ -570,6 +567,8 @@ namespace ServerReWear.Controllers
 
         }
 
+
     }
+    
 }
 

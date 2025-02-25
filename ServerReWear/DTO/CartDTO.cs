@@ -13,17 +13,19 @@ namespace ServerReWear.DTO
 
         public int? ProductCode { get; set; }
 
-        public virtual Product? ProductCodeNavigation { get; set; }
+        public virtual ProductDTO? ProductCodeNavigation { get; set; }
 
         public virtual User? User { get; set; }
 
         public CartDTO() { }
 
-        public CartDTO(Models.Cart cart)
+        public CartDTO(Models.Cart cart, string wwwRoot)
         {
             CartId= cart.CartId;
             UserId= cart.UserId;
             ProductCode = cart.ProductCode;
+            if (cart.ProductCodeNavigation != null) 
+                ProductCodeNavigation = new ProductDTO(cart.ProductCodeNavigation, wwwRoot);
             
 
         }
