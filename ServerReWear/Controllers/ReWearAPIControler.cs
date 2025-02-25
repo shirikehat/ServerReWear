@@ -550,6 +550,25 @@ namespace ServerReWear.Controllers
 
 
 
+        [HttpPost("Block")]
+        public IActionResult Block([FromBody] DTO.User u)
+        {
+            try
+            {
+                //Create model user class
+                Models.User user = context.GetUser1(u.UserId);
+                user.IsBlocked = u.IsBlocked;
+                context.Entry(user).State = EntityState.Modified;
+
+                context.SaveChanges();
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+        }
 
     }
 }

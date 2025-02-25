@@ -18,7 +18,8 @@ CREATE TABLE Users (
     Password NVARCHAR(100) not null,    -- סיסמה
     Phone NVARCHAR(10) not null,        --טלפון
     Email NVARCHAR(100) not null,       --אימייל
-    IsManager bit default(0) not null --האם המשתמש הוא מנהל המערכת
+    IsManager bit default(0) not null, --האם המשתמש הוא מנהל המערכת
+    IsBlocked bit Not Null Default 0
 );
 
 

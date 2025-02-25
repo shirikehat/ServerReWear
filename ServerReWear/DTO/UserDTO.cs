@@ -8,6 +8,7 @@
         public string Phone { get; set; }
         public string Email { get; set; }
         public bool IsManager { get; set; }
+        public bool IsBlocked { get; set; }
         public string ProfileImagePath { get; set; } = "";
 
         public UserDTO() { }
@@ -19,6 +20,7 @@
             this.Phone = modeluser.Phone;
             this.Email = modeluser.Email;
             this.IsManager = modeluser.IsManager;
+            //this.IsBlocked = modeluser.IsBlocked;
         }
 
         public Models.User GetModel()
