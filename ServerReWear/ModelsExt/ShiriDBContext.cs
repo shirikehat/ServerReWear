@@ -17,5 +17,35 @@ public partial class ShiriDBContext : DbContext
         return this.Users.Where(u => u.UserId == id)
                             .FirstOrDefault();
     }
+
+    public void DeleteCart(int cartId)
+    {
+        try
+        {
+            Cart c = new Cart()
+            {
+                CartId = cartId
+            };
+            this.Carts.Remove(c);
+            this.SaveChanges();
+        }
+        catch { }
+
+    }
+
+    public void DeleteWishlist(int wishlistId)
+    {
+        try
+        {
+            WishList w = new WishList()
+            {
+                WishlistId = wishlistId
+            };
+            this.WishLists.Remove(w);
+            this.SaveChanges();
+        }
+        catch { }
+
+    }
 }
 

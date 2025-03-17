@@ -567,8 +567,38 @@ namespace ServerReWear.Controllers
 
         }
 
+        [HttpGet("RemoveCart")]
+        public IActionResult RemoveCart([FromQuery] int cartId)
+        {
+            try
+            {
+                //Create model user class
+                context.DeleteCart(cartId);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
 
-        
+        }
+
+
+        [HttpGet("RemoveWishlist")]
+        public IActionResult RemoveWishlist([FromQuery] int wishlistId)
+        {
+            try
+            {
+                //Create model user class
+                context.DeleteWishlist(wishlistId);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+        }
 
     }
 
