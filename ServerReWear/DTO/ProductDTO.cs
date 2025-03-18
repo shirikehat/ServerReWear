@@ -32,6 +32,7 @@ namespace ServerReWear.DTO
             Size = product.Size;
             StatusId = product.StatusId;
             TypeId = product.TypeId;
+            Store = product.Store;
             if (product.User != null)
             {
                 UserName = product.User.UserName;
@@ -49,7 +50,8 @@ namespace ServerReWear.DTO
                 UserId = this.UserId,
                 Size = this.Size,
                 StatusId = this.StatusId,
-                TypeId = this.TypeId
+                TypeId = this.TypeId,
+                Store = this.Store
             };
         }
 
