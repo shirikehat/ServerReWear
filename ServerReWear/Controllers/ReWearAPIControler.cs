@@ -600,6 +600,69 @@ namespace ServerReWear.Controllers
 
         }
 
+
+        [HttpPost("PostProduct")]
+        public async Task<IActionResult> PostProduct([FromBody] DTO.ProductDTO product_dto)
+        {
+            try
+            {
+                if (product_dto == null)
+                {
+                    return BadRequest("Invalid user data.");
+                }
+
+                //Check if who is logged in
+                string? userName = HttpContext.Session.GetString("LoggedInUser");
+                if (string.IsNullOrEmpty(userName))
+                {
+                    return Unauthorized("User is not logged in");
+                }
+
+                User? u = context.Users.Where(u => u.UserName == userName).FirstOrDefault();
+
+                if (u == null)
+                {
+                    return Unauthorized("User is not logged in");
+                }
+
+                if (u.UserId != product_dto.UserId)
+                {
+                    return Unauthorized($"User with id: {u.UserId} is trying to post product for user {product_dto.UserId}");
+                }
+
+                // יצירת קבוצה בהתבסס על הקלט מהמשתמש
+                Models.Product modelproduct = new Models.Product
+                {
+                    UserId = product_dto.UserId,
+                    ProductCode = product_dto.ProductCode,
+                    Description = product_dto.Description,
+                    Size = product_dto.Size,
+                    Price = product_dto.Price,
+                    StatusId = product_dto.StatusId,
+                    Store = product_dto.Store,
+                    TypeId = product_dto.TypeId,
+
+                };
+                // הוספת המשתמש למסד הנתונים
+                context.Products.Add(modelproduct);
+                await context.SaveChangesAsync(); // שמירת השינויים במסד הנתונים
+                return Ok(modelproduct.ProductCode);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+        }
+
+
+
+
+
+
+
+
+
     }
 
 }
