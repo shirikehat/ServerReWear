@@ -40,14 +40,14 @@ CREATE TABLE Types(
 CREATE TABLE Products (
     ProductCode INT PRIMARY KEY Identity,      -- מפתח ראשי
     Price INT not null,                                 -- מחיר המוצר
-    UserId INT,                                    -- מפתח זר לטבלת משתמשים
+    UserId INT not null,                                    -- מפתח זר לטבלת משתמשים
     FOREIGN KEY (UserId) REFERENCES Users(UserId), -- קישור לטבלת המשתמשים
 
     Size NVARCHAR(15),
-    StatusId INT,                                         -- מפתח זר לטבלת סטטוס
+    StatusId INT not null,                                         -- מפתח זר לטבלת סטטוס
     FOREIGN KEY (StatusId) REFERENCES Status(StatusCode), -- קישור לטבלת הסטטוס
 
-    TypeId INT,                                      -- מפתח זר לטבלת סוגים
+    TypeId INT not null,                                      -- מפתח זר לטבלת סוגים
     FOREIGN KEY (TypeId) REFERENCES Types(TypeCode), -- קישור לטבלת הסוגים
 
     Store NVARCHAR(25),

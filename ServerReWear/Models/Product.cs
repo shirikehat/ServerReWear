@@ -13,14 +13,14 @@ public partial class Product
 
     public int Price { get; set; }
 
-    public int? UserId { get; set; }
+    public int UserId { get; set; }
 
     [StringLength(15)]
     public string? Size { get; set; }
 
-    public int? StatusId { get; set; }
+    public int StatusId { get; set; }
 
-    public int? TypeId { get; set; }
+    public int TypeId { get; set; }
 
     [StringLength(25)]
     public string? Store { get; set; }
@@ -33,15 +33,15 @@ public partial class Product
 
     [ForeignKey("StatusId")]
     [InverseProperty("Products")]
-    public virtual Status? Status { get; set; }
+    public virtual Status Status { get; set; } = null!;
 
     [ForeignKey("TypeId")]
     [InverseProperty("Products")]
-    public virtual Type? Type { get; set; }
+    public virtual Type Type { get; set; } = null!;
 
     [ForeignKey("UserId")]
     [InverseProperty("Products")]
-    public virtual User? User { get; set; }
+    public virtual User User { get; set; } = null!;
 
     [InverseProperty("ProductCodeNavigation")]
     public virtual ICollection<WishList> WishLists { get; set; } = new List<WishList>();

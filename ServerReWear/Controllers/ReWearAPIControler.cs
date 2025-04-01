@@ -285,7 +285,7 @@ namespace ServerReWear.Controllers
                 {
                     ProductDTO p = new ProductDTO(product, this.webHostEnvironment.WebRootPath);
                     if (p.UserId != null)
-                        p.UserProfile = GetProfileImageVirtualPath(p.UserId.Value);
+                        p.UserProfile = GetProfileImageVirtualPath(p.UserId);
                     dtoProducts.Add(p);
                 }
 
@@ -326,7 +326,7 @@ namespace ServerReWear.Controllers
                 {
                     ProductDTO p = new ProductDTO(product, this.webHostEnvironment.WebRootPath);
                     if (p.UserId != null)
-                        p.UserProfile = GetProfileImageVirtualPath(p.UserId.Value);
+                        p.UserProfile = GetProfileImageVirtualPath(p.UserId);
                     dtoProducts.Add(p);
                 }
 
@@ -631,10 +631,10 @@ namespace ServerReWear.Controllers
                 }
 
                 // יצירת קבוצה בהתבסס על הקלט מהמשתמש
+                product_dto.StatusId = 1;
                 Models.Product modelproduct = new Models.Product
                 {
                     UserId = product_dto.UserId,
-                    ProductCode = product_dto.ProductCode,
                     Description = product_dto.Description,
                     Size = product_dto.Size,
                     Price = product_dto.Price,
