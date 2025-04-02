@@ -37,7 +37,7 @@ public partial class ShiriDBContext : DbContext
     {
         modelBuilder.Entity<Cart>(entity =>
         {
-            entity.HasKey(e => e.CartId).HasName("PK__Cart__51BCD7B7D766B946");
+            entity.HasKey(e => e.CartId).HasName("PK__Cart__51BCD7B78AD74F59");
 
             entity.HasOne(d => d.ProductCodeNavigation).WithMany(p => p.Carts).HasConstraintName("FK__Cart__ProductCod__32E0915F");
 
@@ -53,7 +53,7 @@ public partial class ShiriDBContext : DbContext
 
         modelBuilder.Entity<Product>(entity =>
         {
-            entity.HasKey(e => e.ProductCode).HasName("PK__Products__2F4E024E6A43B176");
+            entity.HasKey(e => e.ProductCode).HasName("PK__Products__2F4E024E60B3DC19");
 
             entity.HasOne(d => d.Status).WithMany(p => p.Products)
                 .OnDelete(DeleteBehavior.ClientSetNull)
@@ -70,24 +70,26 @@ public partial class ShiriDBContext : DbContext
 
         modelBuilder.Entity<Status>(entity =>
         {
-            entity.HasKey(e => e.StatusCode).HasName("PK__Status__6A7B44FD51A76492");
+            entity.HasKey(e => e.StatusCode).HasName("PK__Status__6A7B44FD623CF8AE");
 
             entity.Property(e => e.StatusCode).ValueGeneratedNever();
         });
 
         modelBuilder.Entity<Type>(entity =>
         {
-            entity.HasKey(e => e.TypeCode).HasName("PK__Types__3E1CDC7DF3B4FE77");
+            entity.HasKey(e => e.TypeCode).HasName("PK__Types__3E1CDC7D51D1EBF8");
+
+            entity.Property(e => e.TypeCode).ValueGeneratedNever();
         });
 
         modelBuilder.Entity<User>(entity =>
         {
-            entity.HasKey(e => e.UserId).HasName("PK__Users__1788CC4C4D8F58BF");
+            entity.HasKey(e => e.UserId).HasName("PK__Users__1788CC4CF1FFAD45");
         });
 
         modelBuilder.Entity<WishList>(entity =>
         {
-            entity.HasKey(e => e.WishlistId).HasName("PK__WishList__233189EBC54CBCFF");
+            entity.HasKey(e => e.WishlistId).HasName("PK__WishList__233189EB3A55562A");
 
             entity.HasOne(d => d.ProductCodeNavigation).WithMany(p => p.WishLists).HasConstraintName("FK__WishList__Produc__36B12243");
 

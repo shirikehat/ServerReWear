@@ -6,10 +6,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ServerReWear.Models;
 
-[Keyless]
 [Table("OrdersFrom")]
 public partial class OrdersFrom
 {
+    [Key]
+    public int OrderId { get; set; }
+
     public int? UserId { get; set; }
 
     public int? ProductCode { get; set; }
@@ -18,8 +20,10 @@ public partial class OrdersFrom
     public string? Adress { get; set; }
 
     [ForeignKey("ProductCode")]
+    [InverseProperty("OrdersFroms")]
     public virtual Product? ProductCodeNavigation { get; set; }
 
     [ForeignKey("UserId")]
+    [InverseProperty("OrdersFroms")]
     public virtual User? User { get; set; }
 }

@@ -32,7 +32,7 @@ CREATE TABLE Status(
 
 --טבלת סוג מוצר
 CREATE TABLE Types(
-    TypeCode INT PRIMARY KEY Identity,   --קוד סוג מוצר
+    TypeCode INT PRIMARY KEY,   --קוד סוג מוצר
     Name NVARCHAR(15)           --שם
 );
 
@@ -82,6 +82,7 @@ FOREIGN KEY (ProductCode) REFERENCES Products(ProductCode) --קישור לטבל
 
 --טבלת מוצרים שהזמינו ממני
 CREATE TABLE OrdersFrom(
+OrderId INT PRIMARY KEY Identity,  --מפתח ראשי
 UserId INT,                                    --מפתח זר לטבלת משתמשים
 FOREIGN KEY (UserId) REFERENCES Users(Userid), --קישור לטבלת משתמשים
 

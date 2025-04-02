@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ServerReWear.Models;
 
-[Index("UserName", Name = "UQ__Users__C9F28456329201BE", IsUnique = true)]
+[Index("UserName", Name = "UQ__Users__C9F284566394A5A1", IsUnique = true)]
 public partial class User
 {
     [Key]
@@ -30,6 +30,9 @@ public partial class User
 
     [InverseProperty("User")]
     public virtual ICollection<Cart> Carts { get; set; } = new List<Cart>();
+
+    [InverseProperty("User")]
+    public virtual ICollection<OrdersFrom> OrdersFroms { get; set; } = new List<OrdersFrom>();
 
     [InverseProperty("User")]
     public virtual ICollection<Product> Products { get; set; } = new List<Product>();

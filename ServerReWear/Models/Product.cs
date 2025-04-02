@@ -31,6 +31,9 @@ public partial class Product
     [InverseProperty("ProductCodeNavigation")]
     public virtual ICollection<Cart> Carts { get; set; } = new List<Cart>();
 
+    [InverseProperty("ProductCodeNavigation")]
+    public virtual ICollection<OrdersFrom> OrdersFroms { get; set; } = new List<OrdersFrom>();
+
     [ForeignKey("StatusId")]
     [InverseProperty("Products")]
     public virtual Status Status { get; set; } = null!;

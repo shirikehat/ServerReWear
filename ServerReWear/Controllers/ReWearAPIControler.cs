@@ -546,6 +546,41 @@ namespace ServerReWear.Controllers
             }
         }
 
+        [HttpGet("GetOrders")]
+        public IActionResult GetOrders()
+        {
+            try
+            {
+                //Check if who is logged in
+                string? userName = HttpContext.Session.GetString("LoggedInUser");
+                if (string.IsNullOrEmpty(userName))
+                {
+                    return Unauthorized("User is not logged in");
+                }
+
+                User? u = context.Users.Where(u => u.UserName == userName).FirstOrDefault();
+
+                if (u == null)
+                {
+                    return Unauthorized("User is not logged in");
+                }
+
+                List<OrdersFrom> ordersFroms = context.OrdersFroms.Include(p => p.ProductCodeNavigation).Where(p => p.UserId == u.UserId).ToList();
+
+                List<OrderDTO> dtoOrders = new List<OrderDTO>();
+                foreach (var order in ordersFroms)
+                {
+                    OrderDTO o = new OrderDTO(order, this.webHostEnvironment.WebRootPath);
+                    dtoOrders.Add(o);
+                }
+
+                return Ok(dtoOrders);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
 
         [HttpPost("Block")]
         public IActionResult Block([FromBody] DTO.UserDTO u)
