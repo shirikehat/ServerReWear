@@ -658,7 +658,50 @@ namespace ServerReWear.Controllers
 
 
 
+        [HttpPost("AddType")]
+        public async Task<IActionResult> AddType([FromBody] DTO.PrType type_dto)
+        {
+            try
+            {
+                if (type_dto == null)
+                {
+                    return BadRequest("Invalid user data.");
+                }
 
+                //Check if who is logged in
+                string? userName = HttpContext.Session.GetString("LoggedInUser");
+                if (string.IsNullOrEmpty(userName))
+                {
+                    return Unauthorized("User is not logged in");
+                }
+
+                User? u = context.Users.Where(u => u.UserName == userName).FirstOrDefault();
+
+                if (u == null)
+                {
+                    return Unauthorized("User is not logged in");
+                }
+
+                
+
+                // יצירת  בהתבסס על הקלט מהמשתמש
+                
+                Models.Type modeltype = new Models.Type
+                {
+                    Name= type_dto.Name
+
+                };
+                // הוספת  למסד הנתונים
+                context.Types.Add(modeltype);
+                await context.SaveChangesAsync(); // שמירת השינויים במסד הנתונים
+                return Ok(modeltype.TypeCode);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+        }
 
 
 

@@ -32,7 +32,7 @@ CREATE TABLE Status(
 
 --טבלת סוג מוצר
 CREATE TABLE Types(
-    TypeCode INT PRIMARY KEY,   --קוד סוג מוצר
+    TypeCode INT PRIMARY KEY Identity,   --קוד סוג מוצר
     Name NVARCHAR(15)           --שם
 );
 
