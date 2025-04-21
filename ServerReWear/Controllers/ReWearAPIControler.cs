@@ -433,6 +433,9 @@ namespace ServerReWear.Controllers
 
         }
 
+
+
+
         [HttpGet("GetAllUsers")]
         public IActionResult GetAllUsers()
         {
@@ -665,7 +668,7 @@ namespace ServerReWear.Controllers
                     return Unauthorized($"User with id: {u.UserId} is trying to post product for user {product_dto.UserId}");
                 }
 
-                // יצירת קבוצה בהתבסס על הקלט מהמשתמש
+                // יצירת מוצר בהתבסס על הקלט מהמשתמש
                 product_dto.StatusId = 1;
                 Models.Product modelproduct = new Models.Product
                 {
@@ -717,13 +720,13 @@ namespace ServerReWear.Controllers
                     return Unauthorized("User is not logged in");
                 }
 
-                
+
 
                 // יצירת  בהתבסס על הקלט מהמשתמש
-                
+
                 Models.Type modeltype = new Models.Type
                 {
-                    Name= type_dto.Name
+                    Name = type_dto.Name
 
                 };
                 // הוספת  למסד הנתונים
@@ -738,10 +741,52 @@ namespace ServerReWear.Controllers
 
         }
 
+        [HttpPost("BuyProduct")]
+        public async Task<IActionResult> BuyProduct([FromBody] DTO.OrderDTO order_dto)
+        {
+            try
+            {
+                if (order_dto == null)
+                {
+                    return BadRequest("Invalid user data.");
+                }
+
+                //Check if who is logged in
+                string? userName = HttpContext.Session.GetString("LoggedInUser");
+                if (string.IsNullOrEmpty(userName))
+                {
+                    return Unauthorized("User is not logged in");
+                }
+
+                User? u = context.Users.Where(u => u.UserName == userName).FirstOrDefault();
+
+                if (u == null)
+                {
+                    return Unauthorized("User is not logged in");
+                }
+                // יצירת הזמנה בהתבסס על הקלט מהמשתמש
+                Models.OrdersFrom modelorder = new Models.OrdersFrom
+                {
+                    UserId = order_dto.UserId,
+                    Adress= order_dto.Adress,
+
+                };
+                // הוספת המשתמש למסד הנתונים
+                context.OrdersFroms.Add(modelorder);
+                await context.SaveChangesAsync(); // שמירת השינויים במסד הנתונים
+                return Ok(modelorder.ProductCode);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+        }
 
 
 
-    }
 
+
+    } 
 }
 
