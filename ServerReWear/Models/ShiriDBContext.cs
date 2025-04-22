@@ -37,7 +37,7 @@ public partial class ShiriDBContext : DbContext
     {
         modelBuilder.Entity<Cart>(entity =>
         {
-            entity.HasKey(e => e.CartId).HasName("PK__Cart__51BCD7B78AD74F59");
+            entity.HasKey(e => e.CartId).HasName("PK__Cart__51BCD7B74E4F70FF");
 
             entity.HasOne(d => d.ProductCodeNavigation).WithMany(p => p.Carts).HasConstraintName("FK__Cart__ProductCod__32E0915F");
 
@@ -46,14 +46,16 @@ public partial class ShiriDBContext : DbContext
 
         modelBuilder.Entity<OrdersFrom>(entity =>
         {
-            entity.HasOne(d => d.ProductCodeNavigation).WithMany().HasConstraintName("FK__OrdersFro__Produ__398D8EEE");
+            entity.HasKey(e => e.OrderId).HasName("PK__OrdersFr__C3905BCF9D779B9D");
 
-            entity.HasOne(d => d.User).WithMany().HasConstraintName("FK__OrdersFro__UserI__38996AB5");
+            entity.HasOne(d => d.ProductCodeNavigation).WithMany(p => p.OrdersFroms).HasConstraintName("FK__OrdersFro__Produ__3A81B327");
+
+            entity.HasOne(d => d.User).WithMany(p => p.OrdersFroms).HasConstraintName("FK__OrdersFro__UserI__398D8EEE");
         });
 
         modelBuilder.Entity<Product>(entity =>
         {
-            entity.HasKey(e => e.ProductCode).HasName("PK__Products__2F4E024E60B3DC19");
+            entity.HasKey(e => e.ProductCode).HasName("PK__Products__2F4E024E3D2BAB55");
 
             entity.HasOne(d => d.Status).WithMany(p => p.Products)
                 .OnDelete(DeleteBehavior.ClientSetNull)
@@ -70,26 +72,24 @@ public partial class ShiriDBContext : DbContext
 
         modelBuilder.Entity<Status>(entity =>
         {
-            entity.HasKey(e => e.StatusCode).HasName("PK__Status__6A7B44FD623CF8AE");
+            entity.HasKey(e => e.StatusCode).HasName("PK__Status__6A7B44FD26825AE0");
 
             entity.Property(e => e.StatusCode).ValueGeneratedNever();
         });
 
         modelBuilder.Entity<Type>(entity =>
         {
-            entity.HasKey(e => e.TypeCode).HasName("PK__Types__3E1CDC7D51D1EBF8");
-
-            entity.Property(e => e.TypeCode).ValueGeneratedNever();
+            entity.HasKey(e => e.TypeCode).HasName("PK__Types__3E1CDC7D3C749179");
         });
 
         modelBuilder.Entity<User>(entity =>
         {
-            entity.HasKey(e => e.UserId).HasName("PK__Users__1788CC4CF1FFAD45");
+            entity.HasKey(e => e.UserId).HasName("PK__Users__1788CC4CE6AA9994");
         });
 
         modelBuilder.Entity<WishList>(entity =>
         {
-            entity.HasKey(e => e.WishlistId).HasName("PK__WishList__233189EB3A55562A");
+            entity.HasKey(e => e.WishlistId).HasName("PK__WishList__233189EB87538667");
 
             entity.HasOne(d => d.ProductCodeNavigation).WithMany(p => p.WishLists).HasConstraintName("FK__WishList__Produc__36B12243");
 

@@ -284,8 +284,8 @@ namespace ServerReWear.Controllers
                 foreach (var product in products)
                 {
                     ProductDTO p = new ProductDTO(product, this.webHostEnvironment.WebRootPath);
-                    if (p.UserId != null)
-                        p.UserProfile = GetProfileImageVirtualPath(p.UserId);
+                    if (p.User != null)
+                        p.User.ProfileImagePath = GetProfileImageVirtualPath(p.UserId);
                     dtoProducts.Add(p);
                 }
 
@@ -325,8 +325,8 @@ namespace ServerReWear.Controllers
                 foreach (var product in products)
                 {
                     ProductDTO p = new ProductDTO(product, this.webHostEnvironment.WebRootPath);
-                    if (p.UserId != null)
-                        p.UserProfile = GetProfileImageVirtualPath(p.UserId);
+                    if (p.User != null)
+                        p.User.ProfileImagePath = GetProfileImageVirtualPath(p.UserId);
                     dtoProducts.Add(p);
                 }
 
@@ -493,7 +493,7 @@ namespace ServerReWear.Controllers
                     return Unauthorized("User is not logged in");
                 }
 
-                List<Cart> carts = context.Carts.Include(p => p.ProductCodeNavigation).Where(p => p.UserId == u.UserId).ToList();
+                List<Cart> carts = context.Carts.Include(p => p.ProductCodeNavigation).Where(p => p.UserId == u.UserId && p.ProductCodeNavigation.StatusId== 1).ToList();
 
                 List<CartDTO> dtoCarts = new List<CartDTO>();
                 foreach (var cart in carts)
@@ -532,7 +532,7 @@ namespace ServerReWear.Controllers
                     return Unauthorized("User is not logged in");
                 }
 
-                List<WishList> wishlists = context.WishLists.Include(p => p.ProductCodeNavigation).Where(p => p.UserId == u.UserId).ToList();
+                List<WishList> wishlists = context.WishLists.Include(p => p.ProductCodeNavigation).Where(p => p.UserId == u.UserId && p.ProductCodeNavigation.StatusId == 1).ToList();
 
                 List<WishlistDTO> dtoWishlists = new List<WishlistDTO>();
                 foreach (var wishlist in wishlists)
@@ -765,12 +765,15 @@ namespace ServerReWear.Controllers
                     return Unauthorized("User is not logged in");
                 }
                 // יצירת הזמנה בהתבסס על הקלט מהמשתמש
-                Models.OrdersFrom modelorder = new Models.OrdersFrom
-                {
-                    UserId = order_dto.UserId,
-                    Adress= order_dto.Adress,
+                Models.OrdersFrom modelorder = order_dto.GetModel();
 
-                };
+                Product? p = context.Products.Where(u => u.ProductCode == modelorder.ProductCode).FirstOrDefault();
+                if (p != null)
+                {
+                    p.StatusId = 2; //Bought
+                }
+
+                context.Products.Update(p);
                 // הוספת המשתמש למסד הנתונים
                 context.OrdersFroms.Add(modelorder);
                 await context.SaveChangesAsync(); // שמירת השינויים במסד הנתונים

@@ -32,7 +32,7 @@ CREATE TABLE Status(
 
 --טבלת סוג מוצר
 CREATE TABLE Types(
-    TypeCode INT PRIMARY KEY,   --קוד סוג מוצר
+    TypeCode INT PRIMARY KEY Identity,   --קוד סוג מוצר
     Name NVARCHAR(15)           --שם
 );
 
@@ -111,15 +111,15 @@ Go
 insert into Status values (1, N'not purchase')
 insert into Status values (2, N'purchase')
 
-insert into Types values (1, N'shirt')
-insert into Types values (2, N'pants')
-insert into Types values (3, N'skirt')
-insert into Types values (4, N'dress')
-insert into Types values (5, N'shoes')
-insert into Types values (6, N'bag')
-insert into Types values (7, N'hat')
-insert into Types values (8, N'jewelry')
-insert into Types values (9, N'swimsuit')
+insert into Types values (N'shirt')
+insert into Types values (N'pants')
+insert into Types values (N'skirt')
+insert into Types values (N'dress')
+insert into Types values (N'shoes')
+insert into Types values (N'bag')
+insert into Types values (N'hat')
+insert into Types values (N'jewelry')
+insert into Types values (N'swimsuit')
 
 insert into Users(Username, Password, Phone, Email) values ('Shira', 'Shira123', '0505555500', 'shirale200@gmail.com')
 insert into Users(Username, Password, Phone, Email, IsManager) values ('shiri','admin123','0009998887','kehatshiri@gmail.com', 1)

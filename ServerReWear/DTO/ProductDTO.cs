@@ -11,8 +11,6 @@ namespace ServerReWear.DTO
         public int Price { get; set; }
 
         public int UserId { get; set; }
-        public string UserName { get; set; }
-        public string? UserProfile { get; set; } = "";
         public string? Size { get; set; }
 
         public int StatusId { get; set; }
@@ -21,6 +19,7 @@ namespace ServerReWear.DTO
         public string? Store { get; set; }
         public string? Description { get; set; }
         public string ProductImagePath { get; set; } = "";
+        public UserDTO User { get; set; }
        
         public ProductDTO() { }
 
@@ -35,7 +34,7 @@ namespace ServerReWear.DTO
             Store = product.Store;
             if (product.User != null)
             {
-                UserName = product.User.UserName;
+                User = new UserDTO(product.User);
                
             }
             ProductImagePath = GetProductImageVirtualPath(ProductCode, wwwRoot);
