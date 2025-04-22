@@ -278,7 +278,7 @@ namespace ServerReWear.Controllers
                     return Unauthorized("User is not logged in");
                 }
 
-                List<Product> products = context.Products.Include(p => p.User).Where(p => p.UserId == theUser.Id).ToList();
+                List<Product> products = context.Products.Include(p => p.User).Where(p => p.UserId == theUser.Id && p.StatusId==1).ToList();
 
                 List<ProductDTO> dtoProducts = new List<ProductDTO>();
                 foreach (var product in products)
@@ -319,7 +319,7 @@ namespace ServerReWear.Controllers
                     return Unauthorized("User is not logged in");
                 }
 
-                List<Product> products = context.Products.Include(p => p.User).ToList();
+                List<Product> products = context.Products.Include(p => p.User).Where(p => p.StatusId == 1).ToList();
 
                 List<ProductDTO> dtoProducts = new List<ProductDTO>();
                 foreach (var product in products)
