@@ -493,7 +493,7 @@ namespace ServerReWear.Controllers
                     return Unauthorized("User is not logged in");
                 }
 
-                List<Cart> carts = context.Carts.Include(p => p.ProductCodeNavigation).Where(p => p.UserId == u.UserId && p.ProductCodeNavigation.StatusId== 1).ToList();
+                List<Cart> carts = context.Carts.Include(p => p.ProductCodeNavigation).ThenInclude(us=> us.User).Where(p => p.UserId == u.UserId && p.ProductCodeNavigation.StatusId== 1).ToList();
 
                 List<CartDTO> dtoCarts = new List<CartDTO>();
                 foreach (var cart in carts)
@@ -532,7 +532,7 @@ namespace ServerReWear.Controllers
                     return Unauthorized("User is not logged in");
                 }
 
-                List<WishList> wishlists = context.WishLists.Include(p => p.ProductCodeNavigation).Where(p => p.UserId == u.UserId && p.ProductCodeNavigation.StatusId == 1).ToList();
+                List<WishList> wishlists = context.WishLists.Include(p => p.ProductCodeNavigation).ThenInclude(us => us.User).Where(p => p.UserId == u.UserId && p.ProductCodeNavigation.StatusId == 1).ToList();
 
                 List<WishlistDTO> dtoWishlists = new List<WishlistDTO>();
                 foreach (var wishlist in wishlists)
