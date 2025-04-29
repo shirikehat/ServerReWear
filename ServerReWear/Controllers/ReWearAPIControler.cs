@@ -92,8 +92,7 @@ namespace ServerReWear.Controllers
         {
             try
             {
-                HttpContext.Session.Clear(); //Logout any previous login attempt
-
+                
                 //Get model user class from DB with matching email. 
                 Models.User modelsUser = userDto.GetModel();
 

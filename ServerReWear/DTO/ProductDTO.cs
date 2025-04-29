@@ -19,7 +19,7 @@ namespace ServerReWear.DTO
         public string? Store { get; set; }
         public string? Description { get; set; }
         public string ProductImagePath { get; set; } = "";
-        public UserDTO User { get; set; }
+        public UserDTO? User { get; set; }
        
         public ProductDTO() { }
 
