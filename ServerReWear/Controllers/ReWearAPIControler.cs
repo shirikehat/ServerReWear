@@ -110,6 +110,71 @@ namespace ServerReWear.Controllers
 
         }
 
+        [HttpPost("UploadProductImage")]
+        public async Task<IActionResult> UploadProductImage(IFormFile file, [FromQuery] int productId)
+        {
+            //Check if who is logged in
+            string? userName = HttpContext.Session.GetString("LoggedInUser");
+            if (string.IsNullOrEmpty(userName))
+            {
+                return Unauthorized("User is not logged in");
+            }
+
+            Product? p = context.Products.Where(pp => pp.ProductCode == productId).FirstOrDefault();
+            if (p == null)
+            {
+                return BadRequest("Product Id not found");
+            }
+            //Clear the tracking of all objects to avoid double tracking
+            context.ChangeTracker.Clear();
+
+            
+
+            //Read all files sent
+            long imagesSize = 0;
+
+            if (file.Length > 0)
+            {
+                //Check the file extention!
+                string[] allowedExtentions = { ".png", ".jpg" };
+                string extention = "";
+                if (file.FileName.LastIndexOf(".") > 0)
+                {
+                    extention = file.FileName.Substring(file.FileName.LastIndexOf(".")).ToLower();
+                }
+                if (!allowedExtentions.Where(e => e == extention).Any())
+                {
+                    //Extention is not supported
+                    return BadRequest("File sent with non supported extention");
+                }
+
+                //Build path in the web root (better to a specific folder under the web root
+                string filePath = $"{this.webHostEnvironment.WebRootPath}\\productImages\\{productId}{extention}";
+
+                using (var stream = System.IO.File.Create(filePath))
+                {
+                    await file.CopyToAsync(stream);
+
+                    if (IsImage(stream))
+                    {
+                        imagesSize += stream.Length;
+                    }
+                    else
+                    {
+                        //Delete the file if it is not supported!
+                        System.IO.File.Delete(filePath);
+                    }
+
+                }
+
+            }
+
+            
+            DTO.ProductDTO dtoProduct = new DTO.ProductDTO(p);
+            dtoProduct.ProductImagePath = GetProductImageVirtualPath(p.ProductCode);
+            return Ok(dtoProduct);
+        }
+
         [HttpPost("UploadProfileImage")]
         public async Task<IActionResult> UploadProfileImageAsync(IFormFile file)
         {
