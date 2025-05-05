@@ -31,7 +31,8 @@
                 UserName = this.UserName,
                 Password = this.Password,
                 Phone = this.Phone,
-                Email = this.Email
+                Email = this.Email,
+                IsManager= this.IsManager,  
             };
         }
 
