@@ -12,6 +12,7 @@ namespace ServerReWear.DTO
             this.StatusCode = status.StatusCode;
             this.Name = status.Name;
         }
+        public Status() { }
     }
 
     public class PrType
@@ -24,6 +25,8 @@ namespace ServerReWear.DTO
             this.TypeCode = t.TypeCode;
             this.Name = t.Name;
         }
+
+        public PrType() { }
 
     }
     public class BasicData

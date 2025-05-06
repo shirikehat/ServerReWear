@@ -133,7 +133,7 @@ Select * From Status
 Select * From Types
 Select * From Products
 select * from cart
-
+select * from OrdersFrom
 --EF Code
 /*
 scaffold-DbContext "Server = (localdb)\MSSQLLocalDB;Initial Catalog=ReWear_DB;User ID=AdminUser;Password=admin123;" Microsoft.EntityFrameworkCore.SqlServer -OutPutDir Models -Context ShiriDBContext -DataAnnotations -force

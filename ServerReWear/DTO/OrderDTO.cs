@@ -14,7 +14,7 @@ namespace ServerReWear.DTO
         public string? Adress { get; set; }
         public virtual ProductDTO? ProductCodeNavigation { get; set; }
 
-        public virtual User? User { get; set; }
+        public virtual UserDTO? User { get; set; }
 
         public OrderDTO() { }
 
@@ -26,6 +26,8 @@ namespace ServerReWear.DTO
             Adress= or.Adress;
             if (or.ProductCodeNavigation != null)
                 ProductCodeNavigation = new ProductDTO(or.ProductCodeNavigation, wwwRoot);
+            if (or.User != null)
+                User = new UserDTO(or.User);
 
 
         }

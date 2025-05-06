@@ -613,6 +613,7 @@ namespace ServerReWear.Controllers
             }
         }
 
+        //GetOrders retunr a list of orders that the logged in user bought
         [HttpGet("GetOrders")]
         public IActionResult GetOrders()
         {
@@ -632,7 +633,7 @@ namespace ServerReWear.Controllers
                     return Unauthorized("User is not logged in");
                 }
 
-                List<OrdersFrom> ordersFroms = context.OrdersFroms.Include(p => p.ProductCodeNavigation).Where(p => p.UserId == u.UserId).ToList();
+                List<OrdersFrom> ordersFroms = context.OrdersFroms.Include(p => p.ProductCodeNavigation).ThenInclude(pp=>pp.User).Include(p => p.User).Where(p => p.UserId == u.UserId).ToList();
 
                 List<OrderDTO> dtoOrders = new List<OrderDTO>();
                 foreach (var order in ordersFroms)
@@ -648,6 +649,57 @@ namespace ServerReWear.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        //getOrdersFromMe return a list of orders that other users bought from my store
+        [HttpGet("GetOrdersFromMe")]
+        public IActionResult GetOrdersFromMe()
+        {
+            try
+            {
+                //Check if who is logged in
+                string? userName = HttpContext.Session.GetString("LoggedInUser");
+                if (string.IsNullOrEmpty(userName))
+                {
+                    return Unauthorized("User is not logged in");
+                }
+
+                User? u = context.Users.Where(u => u.UserName == userName).FirstOrDefault();
+
+                if (u == null)
+                {
+                    return Unauthorized("User is not logged in");
+                }
+
+                List<Product> products = context.Products.Include(p=>p.OrdersFroms).ThenInclude(of=>of.User).Where(p=>p.UserId == u.UserId).ToList();
+
+                List<OrdersFrom> ordersFroms = new List<OrdersFrom>();
+                foreach(Product p in products)
+                {
+                    if (p.StatusId == 2) //Bought
+                    {
+                        foreach (OrdersFrom o in p.OrdersFroms)
+                        {
+                            ordersFroms.Add(o);
+                        }
+                    }
+                    
+                }
+
+                List<OrderDTO> dtoOrders = new List<OrderDTO>();
+                foreach (var order in ordersFroms)
+                {
+                    OrderDTO o = new OrderDTO(order, this.webHostEnvironment.WebRootPath);
+                    dtoOrders.Add(o);
+                }
+
+                return Ok(dtoOrders);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
 
         [HttpPost("Block")]
         public IActionResult Block([FromBody] DTO.UserDTO u)
