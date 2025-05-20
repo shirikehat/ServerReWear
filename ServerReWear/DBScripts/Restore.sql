@@ -13,18 +13,11 @@ Go
 
 
 
-
 -- Create a login for the admin user
 CREATE LOGIN [AdminUser] WITH PASSWORD = 'admin123';
 Go
 
--- Create a user in the TamiDB database for the login
-CREATE USER [AdminUser] FOR LOGIN [AdminUser];
-Go
 
--- Add the user to the db_owner role to grant admin privileges
-ALTER ROLE db_owner ADD MEMBER [AdminUser];
-Go
 
 
                USE master;
@@ -40,11 +33,17 @@ Go
                ORDER BY backup_start_date DESC;
                 ALTER DATABASE ReWear_DB SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
                 RESTORE DATABASE ReWear_DB FROM DISK = 'C:\Users\User\Source\Repos\shirikehat\ServerReWear\ServerReWear\wwwroot\..\DBScripts\backup.bak' 
-                WITH FILE=@latestBackupSet,
+                WITH 
                 REPLACE;
                 ALTER DATABASE ReWear_DB SET MULTI_USER;
 
 use ReWear_DB
+Go
+
+-- Add the user to the db_owner role to grant admin privileges
+ALTER ROLE db_owner ADD MEMBER [AdminUser];
+Go
+
 Select * From Users
 Select * From Status
 Select * From Types
