@@ -95,11 +95,11 @@ Adress NVARCHAR(100)  --כתובת למשלוח
 
 
 -- Create a login for the admin user
-CREATE LOGIN [AdminUser] WITH PASSWORD = 'admin123';
+CREATE LOGIN [AdminLogin] WITH PASSWORD = 'admin123';
 Go
 
 -- Create a user in the TamiDB database for the login
-CREATE USER [AdminUser] FOR LOGIN [AdminUser];
+CREATE USER [AdminUser] FOR LOGIN [AdminLogin];
 Go
 
 -- Add the user to the db_owner role to grant admin privileges

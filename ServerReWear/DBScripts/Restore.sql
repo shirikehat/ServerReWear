@@ -1,21 +1,45 @@
-﻿use master
+﻿Use master
 Go
+
+-- Declare the database name
+DECLARE @DatabaseName NVARCHAR(255) = 'ReWear_DB';
+
+-- Generate and execute the kill commands for all active connections
+DECLARE @KillCommand NVARCHAR(MAX);
+
+SET @KillCommand = (
+    SELECT STRING_AGG('KILL ' + CAST(session_id AS NVARCHAR), '; ')
+    FROM sys.dm_exec_sessions
+    WHERE database_id = DB_ID(@DatabaseName)
+);
+
+IF @KillCommand IS NOT NULL
+BEGIN
+    EXEC sp_executesql @KillCommand;
+    PRINT 'All connections to the database have been terminated.';
+END
+ELSE
+BEGIN
+    PRINT 'No active connections to the database.';
+END
+Go
+
 IF EXISTS (SELECT * FROM sys.databases WHERE name = N'ReWear_DB')
 BEGIN
     DROP DATABASE ReWear_DB;
 END
 Go
 
-Create Database ReWear_DB
-Go
-use ReWear_DB
-Go
-
-
-
 -- Create a login for the admin user
-CREATE LOGIN [AdminUser] WITH PASSWORD = 'admin123';
+CREATE LOGIN [AdminLogin] WITH PASSWORD = 'admin123';
 Go
+
+
+--so user can restore the DB!
+ALTER SERVER ROLE sysadmin ADD MEMBER [AdminLogin];
+Go
+
+
 
 
 
@@ -40,9 +64,6 @@ Go
 use ReWear_DB
 Go
 
--- Add the user to the db_owner role to grant admin privileges
-ALTER ROLE db_owner ADD MEMBER [AdminUser];
-Go
 
 Select * From Users
 Select * From Status
