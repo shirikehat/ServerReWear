@@ -62,7 +62,7 @@ namespace ServerReWear.Controllers
             }
         }
 
-
+        //פעולה שמבצעת הרשמה למשתמש חדש
         [HttpPost("register")]
         public IActionResult Register([FromBody] DTO.UserDTO userDto)
         {
@@ -87,7 +87,7 @@ namespace ServerReWear.Controllers
 
         }
 
-
+        //מעדכנת בדאטא בייס פרטי משתמש חדש
         [HttpPost("update")]
         public IActionResult UpdateUser([FromBody] DTO.UserDTO userDto)
         {
@@ -97,10 +97,10 @@ namespace ServerReWear.Controllers
                 //Get model user class from DB with matching email. 
                 Models.User modelsUser = userDto.GetModel();
 
-                context.Users.Update(modelsUser);
+                context.Users.Update(modelsUser); 
                 context.SaveChanges();
 
-                //User was added!
+                //User was updated!
                 DTO.UserDTO dtoUser = new DTO.UserDTO(modelsUser);
                 return Ok(dtoUser);
             }
